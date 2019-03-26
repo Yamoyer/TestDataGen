@@ -1,6 +1,6 @@
 from faker import Faker
 from pydbgen import pydbgen
-import pandas as pd
+import pandas
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
@@ -14,47 +14,65 @@ global menuList
 global entryList
 global buttonList
 global newMenuList
-
+newMenuList = []
 menuList = ['ssn', 'name','country', 'date', 'company']
 
 def createType():
-    def buttonClick():
+
+    def addRow():
         
-        if entRows.get() == '':
-            messagebox.showerror(title = 'Error', message = 'Please enter number of rows.')
+        entryPointadd = Entry(window, width = 15)
+        fieldButton = Button(window, text = menuList[4], command = (otherTypes))       
+        entryPointadd.grid(column = 0, row = window.grid_size()[1], pady = 3, padx = 3)
+        
+        fieldButton.grid(column= 2, row = window.grid_size()[1] - 1, pady = 3, padx = 3)
+        fieldButton.configure(takefocus = 0)    
 
-        elif entryPoint.get() == '':
-            messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')
+        buttonListVals.insert(len(buttonListVals), fieldButton.cget('text'))
+        entryListVals.append(entryPointadd)      
+        newMenuList.insert(len(newMenuList),fieldButton.cget("text"))
+        window.mainloop()
 
+    def buttonClick():
+        try:
+            if entRows.get() == '':
+                messagebox.showerror(title = 'Error', message = 'Please enter number of rows.')
 
-        else:
-            r = Tk()    
-            entRowsvalue = entRows.get()
-            dataFrameGen = myDB.gen_dataframe(int(entRowsvalue), fields = menuList)        
-            for entry in entryList:
-                entryListVals.append(entry.get())
-            print(entryListVals)
-            
-            for value in buttonList:
-                buttonListVals.append(value)
-            print(buttonListVals)
+            elif not (1 <= int(entRows.get()) <= 1000000):
+                messagebox.showerror(title = 'Error', message = 'Please enter a number between 1 and 1,000,000 for number of rows.')
 
-            for i in range(len(menuList)):
-                dataFrameGen.rename(columns = {menuList[i] : entryListVals[i]}, inplace = True)
-            
-            datagenlabel = Label(r, text = dataFrameGen)
-            datagenlabel.grid(column=0, row=1) 
-            dataFrameGen.to_excel('excel_test.xlsx', sheet_name = 'data') 
-            buttonListVals.clear()
-            entryListVals.clear()             
-            r.update()
-            r.mainloop()
+            elif entryPoint.get() == '':
+                messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')
+
+            else:
+                r = Tk()    
+                entRowsvalue = entRows.get()
+                dataFrameGen = myDB.gen_dataframe(int(entRowsvalue), fields = menuList)        
+                
+                for entry in entryList:
+                    entryListVals.append(entry.get())
+                print(entryListVals)
+                
+                for value in buttonList:
+                    buttonListVals.append(value)
+                print(buttonListVals)
+
+                for i in range(len(menuList)):
+                    dataFrameGen.rename(columns = {menuList[i] : entryListVals[i]}, inplace = True)
+                
+                datagenlabel = Label(r, text = dataFrameGen)
+                datagenlabel.grid(column=0, row=1) 
+                dataFrameGen.to_excel('excel_test.xlsx', sheet_name = 'data') 
+                buttonListVals.clear()
+                entryListVals.clear()             
+                r.mainloop()
+        except ValueError:
+            messagebox.showerror(title = 'Error', message = 'Please enter a number between 1 and 1,000,000 for number of rows.')        
     
     def deleteRows():
         gridList = window.grid_size()
         buttonList.pop()
         entryList.pop()
-        #window.grid_remove()[1]
 
         print(gridList)
         print(buttonList)
@@ -63,21 +81,10 @@ def createType():
         fieldButton.destroy()
         window.mainloop()
     
-    def addRow():
-        
-        entryPointadd = Entry(window, width = 15)
-        fieldButton = Button(window, text = menuList[4], command = (otherTypes, buttonClick))       
-        entryPointadd.grid(column = 0, row = window.grid_size()[1], pady = 3, padx = 3)
-        
-        fieldButton.grid(column= 2, row = window.grid_size()[1] - 1, pady = 3, padx = 3)
-        fieldButton.configure(takefocus = 0)    
 
-        buttonListVals.append(fieldButton.cget('text'))
-        entryListVals.append(entryPointadd)       
-        window.mainloop()
 
     def otherTypes():
-        newMenuList = []
+        
         window2 = Tk()
         
         for i in range(len(menuList)):
@@ -93,7 +100,7 @@ def createType():
     window = Tk()
     window.title("Test Data Gen")
     window.config(background = 'light blue')
-    window.geometry('450x920+0+0')
+    window.geometry('450x400+0+0')
 
     
     lbl1 = Label(window, text='Field Types') #basic grid label
@@ -146,7 +153,7 @@ def createType():
         deleteFieldBtn = Button(window, text = 'Delete Field', command = deleteRows)
         deleteFieldBtn.grid(column = 2, row = 0)
         deleteFieldBtn.configure(takefocus = 0) 
-        
+
         fieldButton.grid(column= 2, row = i + 3, pady = 3, padx = 3)
          
         buttonList.append(fieldButton.cget('text'))
