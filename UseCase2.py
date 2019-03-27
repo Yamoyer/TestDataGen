@@ -14,7 +14,14 @@ global menuList
 global entryList
 global buttonList
 global newMenuList
-newMenuList = []
+newMenuList = ['ssn', 'name','country', 'date', 'company','state','city', 'real (US) cities',
+ 'US state', 'zipcode', 'latitude', 'longitude','Month', 'weekday', 'year', 'time', 'date'  
+'Personal email', 'official email', 'Job title', 'phone number', 'license plate']
+buttonList = []
+buttonListVals = [] 
+entryList = []    
+entryListVals =[]
+
 menuList = ['ssn', 'name','country', 'date', 'company']
 
 def createType():
@@ -32,6 +39,9 @@ def createType():
         entryList.insert(len(entryList)+ 1, entryPointadd)      
         #newMenuList.insert(len(menuList),fieldButton.cget("text"))
         buttonList.insert(len(buttonList) + 1, fieldButton.cget("text"))
+        if entryPointadd.get() == '':
+            messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')
+
         print(buttonList)
     def buttonClick():
         try:
@@ -55,7 +65,7 @@ def createType():
                 for value in buttonList:
                     buttonListVals.append(value)
                 print(buttonListVals)
-
+                    
                 myDB.gen_dataframe(int(entRowsvalue), fields = buttonListVals)  
 
                 dataFrameGen = myDB.gen_dataframe(int(entRowsvalue), fields = buttonListVals)      
@@ -92,13 +102,13 @@ def createType():
         
         window2 = Tk()
         
-        for i in range(len(menuList)):
+        for i in range(len(newMenuList)):
             global fakerButton
-            fakerButton = Button(window2, text = menuList[i], width = 20, command = createType)
-            fakerButton.grid(column = i + 1, row = 1)
-            newMenuList.append(fakerButton.cget('text'))
+            fakerButton = Button(window2, text = newMenuList[i], width = 20, command = createType)
+            fakerButton.pack()
+            #newMenuList.append(fakerButton.cget('text'))
 
-            print(buttonList)
+            print(newMenuList)
 
 
     #window Config
@@ -130,14 +140,6 @@ def createType():
     dataBtn.configure(takefocus = 0)    
             
     listLen = len(menuList)
-
-    buttonList = []
-    
-    buttonListVals = []
-    
-    entryList = []
-    
-    entryListVals =[]
 
     for i in range(listLen):
 
