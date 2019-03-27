@@ -22,17 +22,17 @@ def createType():
     def addRow():
         
         entryPointadd = Entry(window, width = 15)
-        fieldButton = Button(window, text = menuList[4], command = (otherTypes))       
+        fieldButton = Button(window, text = menuList[4], command = otherTypes)    
         entryPointadd.grid(column = 0, row = window.grid_size()[1], pady = 3, padx = 3)
         
         fieldButton.grid(column= 2, row = window.grid_size()[1] - 1, pady = 3, padx = 3)
         fieldButton.configure(takefocus = 0)    
-
-        buttonListVals.insert(len(buttonListVals), fieldButton.cget('text'))
-        entryListVals.append(entryPointadd)      
-        newMenuList.insert(len(newMenuList),fieldButton.cget("text"))
-        window.mainloop()
-
+ 
+        #sbuttonListVals.insert(len(buttonListVals), fieldButton.cget('text'))
+        entryList.insert(len(entryList)+ 1, entryPointadd)      
+        #newMenuList.insert(len(menuList),fieldButton.cget("text"))
+        buttonList.insert(len(buttonList) + 1, fieldButton.cget("text"))
+        print(buttonList)
     def buttonClick():
         try:
             if entRows.get() == '':
@@ -47,8 +47,7 @@ def createType():
             else:
                 r = Tk()    
                 entRowsvalue = entRows.get()
-                dataFrameGen = myDB.gen_dataframe(int(entRowsvalue), fields = menuList)        
-                
+                 
                 for entry in entryList:
                     entryListVals.append(entry.get())
                 print(entryListVals)
@@ -57,11 +56,16 @@ def createType():
                     buttonListVals.append(value)
                 print(buttonListVals)
 
-                for i in range(len(menuList)):
-                    dataFrameGen.rename(columns = {menuList[i] : entryListVals[i]}, inplace = True)
+                myDB.gen_dataframe(int(entRowsvalue), fields = buttonListVals)  
+
+                dataFrameGen = myDB.gen_dataframe(int(entRowsvalue), fields = buttonListVals)      
+                
+                for i in range(len(buttonListVals)):
+                    dataFrameGen.rename(columns = {buttonListVals[i] : entryListVals[i]}, inplace = True)
+
                 
                 datagenlabel = Label(r, text = dataFrameGen)
-                datagenlabel.grid(column=0, row=1) 
+                datagenlabel.grid(column=0) 
                 dataFrameGen.to_excel('excel_test.xlsx', sheet_name = 'data') 
                 buttonListVals.clear()
                 entryListVals.clear()             
