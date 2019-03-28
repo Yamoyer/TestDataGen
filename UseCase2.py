@@ -14,33 +14,31 @@ global menuList
 global entryList
 global buttonList
 global newMenuList
-newMenuList = ['ssn', 'name','country', 'date', 'company','state','city', 'real (US) cities',
- 'US state', 'zipcode', 'latitude', 'longitude','Month', 'weekday', 'year', 'time', 'date'  
-'Personal email', 'official email', 'Job title', 'phone number', 'license plate']
+newMenuList = ['ssn', 'name','country', 'date', 'company','state','city', 'real_(US)_cities',
+ 'US_state', 'zipcode', 'latitude', 'longitude','Month', 'weekday', 'year', 'time', 'date',  
+'Personal_email', 'official_email', 'Job_title', 'phone_number', 'license_plate']
 buttonList = []
 buttonListVals = [] 
 entryList = []    
 entryListVals =[]
 
-menuList = ['ssn', 'name','country', 'date', 'company']
+menuList = ['ssn', 'name','country', 'date', 'company',]
 
 def createType():
 
     def addRow():
         
-        entryPointadd = Entry(window, width = 15)
-        fieldButton = Button(window, text = menuList[4], command = otherTypes)    
+        
+        for i in range(len(newMenuList)): 
+            fieldButton = Button(window, text = newMenuList[i], command = otherTypes) 
+            entryPointadd = Entry(window, width = 15)
         entryPointadd.grid(column = 0, row = window.grid_size()[1], pady = 3, padx = 3)
         
         fieldButton.grid(column= 2, row = window.grid_size()[1] - 1, pady = 3, padx = 3)
         fieldButton.configure(takefocus = 0)    
  
-        #sbuttonListVals.insert(len(buttonListVals), fieldButton.cget('text'))
         entryList.insert(len(entryList)+ 1, entryPointadd)      
-        #newMenuList.insert(len(menuList),fieldButton.cget("text"))
         buttonList.insert(len(buttonList) + 1, fieldButton.cget("text"))
-        if entryPointadd.get() == '':
-            messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')
 
         print(buttonList)
     def buttonClick():
@@ -66,13 +64,10 @@ def createType():
                     buttonListVals.append(value)
                 print(buttonListVals)
                     
-                myDB.gen_dataframe(int(entRowsvalue), fields = buttonListVals)  
-
                 dataFrameGen = myDB.gen_dataframe(int(entRowsvalue), fields = buttonListVals)      
                 
                 for i in range(len(buttonListVals)):
                     dataFrameGen.rename(columns = {buttonListVals[i] : entryListVals[i]}, inplace = True)
-
                 
                 datagenlabel = Label(r, text = dataFrameGen)
                 datagenlabel.grid(column=0) 
@@ -86,8 +81,8 @@ def createType():
     
     def deleteRows():
         gridList = window.grid_size()
-        buttonList.pop()
-        entryList.pop()
+        destroyButton = buttonList.pop()
+        destroyEntry = entryList.pop()
 
         print(gridList)
         print(buttonList)
