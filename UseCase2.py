@@ -22,13 +22,12 @@ buttonListVals = []
 entryList = []    
 entryListVals =[]
 
-menuList = ['ssn', 'name','country', 'date', 'company',]
+menuList = ['ssn', 'name','country', 'date', 'company', 'weekday']
 
 def createType():
 
     def addRow():
-        
-        
+              
         for i in range(len(newMenuList)): 
             fieldButton = Button(window, text = newMenuList[i], command = otherTypes) 
             entryPointadd = Entry(window, width = 15)
@@ -51,6 +50,9 @@ def createType():
 
             elif entryPoint.get() == '':
                 messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')
+                
+            elif len(entryPoint.get()) > 20:
+                messagebox.showerror(title = 'Error', message = 'Max 20 characters allowed.')
 
             else:
                 r = Tk()    
@@ -68,7 +70,9 @@ def createType():
                 
                 for i in range(len(buttonListVals)):
                     dataFrameGen.rename(columns = {buttonListVals[i] : entryListVals[i]}, inplace = True)
-                
+                    print(buttonListVals)
+                    print(entryListVals)
+
                 datagenlabel = Label(r, text = dataFrameGen)
                 datagenlabel.grid(column=0) 
                 dataFrameGen.to_excel('excel_test.xlsx', sheet_name = 'data') 
@@ -81,14 +85,17 @@ def createType():
     
     def deleteRows():
         gridList = window.grid_size()
-        destroyButton = buttonList.pop()
-        destroyEntry = entryList.pop()
+        for row in range(len(gridList)):
+            row.destroyButton.destroy()
+
+            buttonList.pop()
+            entryList.pop()
 
         print(gridList)
         print(buttonList)
         print(entryList)
-        entryPoint.destroy()
-        fieldButton.destroy()
+        # entryPoint.destroy()
+        # fieldButton.destroy()
         window.mainloop()
     
 
