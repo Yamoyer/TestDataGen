@@ -21,7 +21,7 @@ buttonList = []
 buttonListVals = [] 
 entryList = []    
 entryListVals =[]
-
+fldbuttonList=[]
 menuList = ['ssn', 'name','country', 'date', 'company', 'weekday']
 
 def createType():
@@ -38,7 +38,7 @@ def createType():
  
         entryList.insert(len(entryList)+ 1, entryPointadd)      
         buttonList.insert(len(buttonList) + 1, fieldButton.cget("text"))
-
+        fldbuttonList.append(fieldButton)
         print(buttonList)
     def buttonClick():
         try:
@@ -50,7 +50,7 @@ def createType():
 
             elif entryPoint.get() == '':
                 messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')
-                
+
             elif len(entryPoint.get()) > 20:
                 messagebox.showerror(title = 'Error', message = 'Max 20 characters allowed.')
 
@@ -84,21 +84,21 @@ def createType():
             messagebox.showerror(title = 'Error', message = 'Please enter a number between 1 and 1,000,000 for number of rows.')        
     
     def deleteRows():
+        print("IN DELETE ROWS")
         gridList = window.grid_size()
-        for row in range(len(gridList)):
-            row.destroyButton.destroy()
+        bList = fldbuttonList.pop()
+        eList = entryList.pop()
 
-            buttonList.pop()
-            entryList.pop()
-
-        print(gridList)
-        print(buttonList)
-        print(entryList)
+        bList.destroy()
+        eList.destroy()
         # entryPoint.destroy()
         # fieldButton.destroy()
-        window.mainloop()
-    
 
+        entryListVals.clear()
+
+        window.mainloop()
+
+    
 
     def otherTypes():
         
@@ -152,7 +152,8 @@ def createType():
         
         fieldButton = Button(window, text = menuList[i], command = otherTypes)
         fieldButton.configure(takefocus = 0)
-        
+        fldbuttonList.append(fieldButton)  
+              
         addFieldBtn = Button(window, text = 'Add Field', command = addRow)   
         addFieldBtn.configure(takefocus = 0)
         addFieldBtn.grid(column = 2, row = 1)
