@@ -48,7 +48,7 @@ class TestDataGen(Frame):
         lblRows.config(font=("Helvetica", 15), background = 'light blue')
 
 
-        addRowButton = Button(self.master, text = 'Add Row', command = self.buttonClick)
+        addRowButton = Button(self.master, text = 'Add Row', command = self.generateData)
         addRowButton.grid(column = 2, row = 8)        
         
         self.master.entry1 = Entry(self.master, width = 13)
@@ -67,7 +67,8 @@ class TestDataGen(Frame):
         dataBtn = Button(self.master, text='Generate Data', command= self.entryListAppend)
         dataBtn.grid(column = 1, row = 8, pady = 5, padx = 5, sticky = NSEW) 
         dataBtn.configure(takefocus = 0) 
-     
+    
+ 
     
     def buttonChange(self):
         buttonMenu = Tk()
@@ -75,48 +76,16 @@ class TestDataGen(Frame):
 
         buttonMenu.mainloop()
 
-    def generateData(self):
-        try:
-            if entRows.get() == '':
-                messagebox.showerror(title = 'Error', message = 'Please enter number of rows.')
-
-            elif not (1 <= int(entRows.get()) <= 1000000):
-                messagebox.showerror(title = 'Error', message = 'Please enter a number between 1 and 1,000,000 for number of rows.')
-
-            elif entryPoint.get() == '':
-                messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')
-
-            else:
-                generateWindow = Tk()  
-                entRowsvalue = testDataGen.entRows.get()
-                 
-                for entry in entryList:
-                    testDataGen.entryListVals.append(entry.get())
-                print(entryListVals)
-                
-                for value in buttonList:
-                    TestDataGen.buttonListVals.append(value)
-                print(buttonListVals)
-                    
-                dataFrameGen = myDB.gen_dataframe(int(entRowsvalue), fields = TestDataGen.buttonListVals)      
-                
-                for i in range(len(buttonListVals)):
-                    dataFrameGen.rename(columns = {TestDataGen.buttonListVals[i] : TestDataGen.entryListVals[i]}, inplace = True)
-                
-                datagenlabel = Label(r, text = dataFrameGen)
-                datagenlabel.grid(column=0) 
-                dataFrameGen.to_excel('excel_test.xlsx', sheet_name = 'data') 
-                TestDataGen.buttonListVals.clear()
-                TestDataGen.entryListVals.clear()             
-            generateWindow.mainloop()          
-
     def entryListAppend(self):
         TestDataGen.entryList.append(self.master.entry1.get())
         TestDataGen.entryList.append(self.master.entry2.get())
         
         print(TestDataGen.entryList)
 
+    def generateData(self):
+        generateWindow = Tk()
 
-    root = Tk()
-    gui = TestDataGen(root)
-    root.mainloop()
+           
+root = Tk()
+gui = TestDataGen(root)
+root.mainloop()
