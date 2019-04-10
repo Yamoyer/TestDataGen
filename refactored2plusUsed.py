@@ -58,30 +58,27 @@ class TestDataGen(Frame):
         for i in range(self.master.listLen):
             
             self.master.entryPoint = Entry(self.master, width = 13)
-
             self.master.entryPoint.grid(column = 0, row = i + 3, pady = 3, padx = 3)
             self.master.entryPoint.configure(takefocus = 1)
             
             self.master.fieldButton = Button(self.master, text = TestDataGen.menuList[i], command = self.otherTypes)
             self.master.fieldButton.configure(takefocus = 0)
-                
+            self.master.fieldButton.grid(column= 2, row = i + 3, pady = 3, padx = 3)  
+
             self.master.addFieldBtn = Button(self.master, text = 'Add Field', command = self.addRow)   
             self.master.addFieldBtn.configure(takefocus = 0)
             self.master.addFieldBtn.grid(column = 2, row = 1)
 
-
-            self.master.destroyRow = Button(self.master, text = 'X')
+            self.master.destroyRow = Button(self.master, text = 'X', command = self.deleteRows)
             self.master.destroyRow.config(width = 2)
             self.master.destroyRow.grid(column = 3, row =  i + 3) 
             self.master.destroyRow.configure(takefocus = 0)           
-
 
             self.master.cat1 = StringVar(self.master)
             self.master.cat1.set("Personal")
             self.master.dropDownCat = OptionMenu(self.master, self.master.cat1, '', TestDataGen.categoriesList[0], TestDataGen.categoriesList[1], TestDataGen.categoriesList[2] )
             self.master.dropDownCat.grid(column = 1, row = i + 3)
-
-            self.master.fieldButton.grid(column= 2, row = i + 3, pady = 3, padx = 3)
+            self.master.dropDownCat.configure(takefocus = 0)
             
             TestDataGen.buttonList.append(self.master.fieldButton.cget('text'))
 
@@ -151,12 +148,10 @@ class TestDataGen(Frame):
             messagebox.showerror(title = 'Error', message = 'Please enter a number between 1 and 1,000,000 for number or rows.')
     
     def deleteRows(self):
-        self.gridList = self.master.gridsize()
-        for row in range(len(TestDataGen.gridList)):
-            row.destroyButton.destroy()
-
-            TestDataGen.buttonList.pop()
-            TestDataGen.entryList.pop()
+        if self.master.destroyRow.grid_size()[1] == self.master.destroyRow.grid_size()[1]:
+            self.master.destroyRow.grid_size()[1].destroy()
+        TestDataGen.buttonList.pop()
+        TestDataGen.entryList.pop()
         
         print(TestDataGen.gridList)
         print(TestDataGen.buttonList)
