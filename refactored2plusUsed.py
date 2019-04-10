@@ -1,3 +1,4 @@
+from faker import Faker
 from pydbgen import pydbgen
 import pandas
 from tkinter import *
@@ -11,15 +12,15 @@ class TestDataGen(Frame):
     newMenuList = ['ssn', 'name','country', 'date', 'company','state','city', 'real_(US)_cities',
     'US_state', 'zipcode', 'latitude', 'longitude','Month', 'weekday', 'year', 'time', 'date',  
     'Personal_email', 'official_email', 'Job_title', 'phone_number', 'license_plate']
+    
     menuList = ['ssn', 'name', 'country', 'date', 'company']
     buttonList = []
     entryList = []
-    newMenuList = []
     buttonListVals = []    
     entryListVals = []
     gridList = []
     myDB = pydbgen.pydb()
-    
+    categoriesList = ['Personal', 'Geographic', 'Address']
 
     def __init__(self, master=None):
         Frame.__init__(self,master)
@@ -48,15 +49,15 @@ class TestDataGen(Frame):
         self.master.lblRows.grid(column = 0, row=1,  pady=5, padx = 5)
         self.master.lblRows.config(font=("Helvetica", 15), background = 'light blue')
 
-        self.master.dataBtn = Button(self.master, text = 'Generate Data', command = self.buttonClick)
-        self.master.dataBtn.grid(column = 1, row = 0, pady = 5, padx = 5, sticky = NSEW) 
+        self.master.dataBtn = Button(self.master, text = 'Generate', command = self.buttonClick)
+        self.master.dataBtn.grid(column = 2, row = 0, pady = 5, padx = 5, sticky = NSEW) 
         self.master.dataBtn.configure(takefocus = 0)          
 
         self.master.listLen = len(TestDataGen.menuList)
 
         for i in range(self.master.listLen):
             
-            self.master.entryPoint = Entry(self.master, width = 15)
+            self.master.entryPoint = Entry(self.master, width = 13)
 
             self.master.entryPoint.grid(column = 0, row = i + 3, pady = 3, padx = 3)
             self.master.entryPoint.configure(takefocus = 1)
@@ -68,9 +69,17 @@ class TestDataGen(Frame):
             self.master.addFieldBtn.configure(takefocus = 0)
             self.master.addFieldBtn.grid(column = 2, row = 1)
 
-            self.master.deleteFieldBtn = Button(self.master, text = 'Delete Field', command = self.deleteRows)
-            self.master.deleteFieldBtn.grid(column = 2, row = 0)
-            self.master.deleteFieldBtn.configure(takefocus = 0) 
+
+            self.master.destroyRow = Button(self.master, text = 'X')
+            self.master.destroyRow.config(width = 2)
+            self.master.destroyRow.grid(column = 3, row =  i + 3) 
+            self.master.destroyRow.configure(takefocus = 0)           
+
+
+            self.master.cat1 = StringVar(self.master)
+            self.master.cat1.set("Personal")
+            self.master.dropDownCat = OptionMenu(self.master, self.master.cat1, '', TestDataGen.categoriesList[0], TestDataGen.categoriesList[1], TestDataGen.categoriesList[2] )
+            self.master.dropDownCat.grid(column = 1, row = i + 3)
 
             self.master.fieldButton.grid(column= 2, row = i + 3, pady = 3, padx = 3)
             
@@ -80,40 +89,44 @@ class TestDataGen(Frame):
 
     def addRow(self):
 
-        for i in range(len(TestDataGen.newMenuList)):
-            self.master.fieldButton = Button(self.master, text = TestDataGen.newMenuList[i], command = self.otherTypes)
-            entryPointadd = Entry(self.master, width = 15)
-
-        entryPointadd.grid(column = 0, row = self.master.gridsize()[1], pady = 3, padx = 3)
+        fieldButton = Button(self.master, text = TestDataGen.newMenuList[0])
+        entryPointadd = Entry(self.master, width = 15)
+        
+        entryPointadd.grid(column = 0, row = self.master.grid_size()[1], pady = 3, padx = 3)
 
         fieldButton.grid(column= 2, row = self.master.grid_size()[1] - 1, pady = 3, padx = 3)
         fieldButton.configure(takefocus = 0) 
 
-        TestDataGen.entryList.insert(len(TestDataGen.entryList) + 1, self.master.entryPointadd)   
-        TestDataGen.buttonList.insert(len(TestDataGen.buttonList) + 1, self.master.fieldButton.cget("text"))
+        destroyRow = Button(self.master, text = 'X')
+        destroyRow.config(width = 2)
+        destroyRow.grid(column = 3, row =  self.master.grid_size()[1] - 1) 
+        destroyRow.configure(takefocus = 0)  
+
+        TestDataGen.entryList.insert(len(TestDataGen.entryList) + 1, entryPointadd)   
+        TestDataGen.buttonList.insert(len(TestDataGen.buttonList) + 1, fieldButton.cget("text"))
 
         print(TestDataGen.buttonList)
 
     def buttonClick(self):
         try:
             if self.master.entRows.get() == '':
-                self.master.messagebox.showerror(title = 'Error', message = 'Please enter number of rows.')
+                messagebox.showerror(title = 'Error', message = 'Please enter number of rows.')
 
             elif not (1 <= int(self.master.entRows.get()) <= 1000000):
-                self.master.messagebox.showerror(title = 'Error', message = 'Please enter a number between 1 and 1,000,000 for number of rows.')
+                messagebox.showerror(title = 'Error', message = 'Please enter a number between 1 and 1,000,000 for number of rows.')
 
             elif self.master.entryPoint.get() == '':
-                self.master.messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')
+                messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')
 
             elif len(self.master.entryPoint.get()) > 20:
-                self.master.messagebox.showerror(title = 'Error', message = 'Max 20 characters allowed.')
+                messagebox.showerror(title = 'Error', message = 'Max 20 characters allowed.')
 
             else:
                 self.r = Tk()    
                 self.master.entRowsvalue = self.master.entRows.get()
                  
                 for entry in TestDataGen.entryList:
-                    TestDataGen.entryListVals.append(self.master.entry.get())
+                    TestDataGen.entryListVals.append(entry.get())
                 print(TestDataGen.entryListVals)
                 
                 for value in TestDataGen.buttonList:
@@ -160,6 +173,9 @@ class TestDataGen(Frame):
             self.master.fakerButton.pack()
 
             print(TestDataGen.newMenuList)
+
+
+
 root = Tk()
 gui = TestDataGen(root)
 root.resizable(0, 0)
