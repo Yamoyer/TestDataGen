@@ -1,4 +1,3 @@
-from faker import Faker
 from pydbgen import pydbgen
 import pandas
 from tkinter import *
