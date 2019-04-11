@@ -141,8 +141,8 @@ class TestDataGen(Frame):
             elif self.master.entryPoint.get() == '':
                 messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')
 
-            elif self.master.entryPointAdd.get() == '':
-                messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')                
+            # elif self.master.entryPointAdd.get() == '':
+            #     messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')                This Don't Work
 
             elif len(self.master.entryPoint.get()) > 20:
                 messagebox.showerror(title = 'Error', message = 'Max 20 characters allowed.')
@@ -150,8 +150,8 @@ class TestDataGen(Frame):
             elif self.master.fieldButtonVar.get() == 'Select':
                 messagebox.showerror(title = 'Error', message = 'Please choose field types for all option menus.')
 
-            elif self.master.fieldButtonVarAdd.get() == 'Select':
-                messagebox.showerror(title = 'Error', message = 'Please choose field types for all option menus.')
+            # elif self.master.fieldButtonVarAdd.get() == 'Select':
+            #     messagebox.showerror(title = 'Error', message = 'Please choose field types for all option menus.')        This Don't Work
 
             else:
                 self.r = Tk()    
