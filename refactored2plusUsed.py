@@ -149,7 +149,7 @@ class TestDataGen(Frame):
     
     def deleteRows(self):
         if self.master.destroyRow.grid_size()[1] == self.master.destroyRow.grid_size()[1]:
-            self.master.destroyRow.grid_size()[1].destroy()
+            self.master.destroyRow.destroy()
         TestDataGen.buttonList.pop()
         TestDataGen.entryList.pop()
         
