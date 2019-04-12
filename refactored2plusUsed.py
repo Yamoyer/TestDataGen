@@ -10,9 +10,8 @@ import openpyxl
 
 class TestDataGen(Frame):
 
-    newMenuList = ['Select','ssn', 'name','country', 'date', 'company','state','city', 'real_(US)_cities',
-    'US_state', 'zipcode', 'latitude', 'longitude','Month', 'weekday', 'year', 'time', 'date',  
-    'Personal_email', 'official_email', 'Job_title', 'phone_number', 'license_plate']
+    newMenuList = ['Select','ssn', 'name','country', 'date', 'company','state','city', 'real_city', 'zipcode', 'latitude', 'longitude','name_month', 'weekday', 'year', 'time', 'date',  
+    'email', 'phone_number_simple', 'license_plate']
     
     menuList = ['ssn', 'name', 'country', 'date', 'company']
 
@@ -42,14 +41,14 @@ class TestDataGen(Frame):
     def init_window(self):
         self.master.title("Test Data Generator")
         self.master.config(background = 'light blue')
-        self.master.geometry('420x400+0+0')
+        self.master.geometry('500x400+0+0')
 
         self.master.lbl1 = Label(self.master, text='Field Types')
-        self.master.lbl1.grid(column=2, row=2, pady=10, padx = 15)
+        self.master.lbl1.grid(column=2, row=2, pady=10, padx = 30)
         self.master.lbl1.config(font=("Hevetica", 15), background = 'light blue')
 
         self.master.lbl = Label(self.master, text='Field Names')
-        self.master.lbl.grid(column=0, row=2, padx = 20)
+        self.master.lbl.grid(column=0, row=2, padx = 40)
         self.master.lbl.grid_columnconfigure((0,1,2), weight = 1)
         self.master.lbl.config(font=("helvetica", 15), background = 'light blue')
 
@@ -60,10 +59,6 @@ class TestDataGen(Frame):
         self.master.lblRows = Label(self.master, text = 'Number of rows:')
         self.master.lblRows.grid(column = 0, row=1,  pady=5, padx = 5)
         self.master.lblRows.config(font=("Helvetica", 15), background = 'light blue')
-
-        # self.master.dataBtn = Button(self.master, text = 'Generate', command = self.buttonClick)
-        # self.master.dataBtn.grid(column = 2, row = 0, pady = 5, padx = 5, sticky = NSEW) 
-        # self.master.dataBtn.configure(takefocus = 0)          
 
         self.master.listLen = len(TestDataGen.menuList)
 
@@ -81,7 +76,7 @@ class TestDataGen(Frame):
             self.master.addFieldBtn.configure(takefocus = 0)
             self.master.addFieldBtn.grid(column = 2, row = 1)
 
-            self.master.destroyRow = Button(self.master, text = 'X', command = self.deleteRows)
+            self.master.destroyRow = Button(self.master, text = 'X', command = lambda : self.master.destroyRow.grid_remove())
             self.master.destroyRow.config(width = 2)
             self.master.destroyRow.grid(column = 3, row =  i + 3) 
             self.master.destroyRow.configure(takefocus = 0)           
@@ -94,7 +89,7 @@ class TestDataGen(Frame):
 
             self.master.fieldButtonVar = StringVar(self.master)
             self.master.fieldButtonVar.set(TestDataGen.newMenuList[0])
-            self.master.fieldButton = OptionMenu(self.master, self.master.fieldButtonVar, '',  TestDataGen.newMenuList[0], TestDataGen.newMenuList[1], TestDataGen.newMenuList[2], TestDataGen.newMenuList[3], TestDataGen.newMenuList[4], TestDataGen.newMenuList[5], TestDataGen.newMenuList[6], TestDataGen.newMenuList[7], TestDataGen.newMenuList[8], TestDataGen.newMenuList[9], TestDataGen.newMenuList[10], TestDataGen.newMenuList[11], TestDataGen.newMenuList[12], TestDataGen.newMenuList[13], TestDataGen.newMenuList[14], TestDataGen.newMenuList[15], TestDataGen.newMenuList[16], TestDataGen.newMenuList[17], TestDataGen.newMenuList[18], TestDataGen.newMenuList[19], TestDataGen.newMenuList[20], TestDataGen.newMenuList[21])
+            self.master.fieldButton = OptionMenu(self.master, self.master.fieldButtonVar, '',  TestDataGen.newMenuList[0], TestDataGen.newMenuList[1], TestDataGen.newMenuList[2], TestDataGen.newMenuList[3], TestDataGen.newMenuList[4], TestDataGen.newMenuList[5], TestDataGen.newMenuList[6], TestDataGen.newMenuList[7], TestDataGen.newMenuList[8], TestDataGen.newMenuList[9], TestDataGen.newMenuList[10], TestDataGen.newMenuList[11], TestDataGen.newMenuList[12], TestDataGen.newMenuList[13], TestDataGen.newMenuList[14], TestDataGen.newMenuList[15], TestDataGen.newMenuList[16], TestDataGen.newMenuList[17], TestDataGen.newMenuList[18], TestDataGen.newMenuList[19])
             self.master.fieldButton.grid(column = 2, row = i + 3, pady = 3, padx = 3)
             self.master.fieldButton.configure(takefocus = 0)
 
@@ -107,7 +102,7 @@ class TestDataGen(Frame):
 
         self.master.fieldButtonVarAdd = StringVar(self.master)
         self.master.fieldButtonVarAdd.set(TestDataGen.newMenuList [0])
-        self.master.fieldButtonAdd = OptionMenu(self.master, self.master.fieldButtonVarAdd, '', TestDataGen.newMenuList[0], TestDataGen.newMenuList[1], TestDataGen.newMenuList[2], TestDataGen.newMenuList[3], TestDataGen.newMenuList[4], TestDataGen.newMenuList[5], TestDataGen.newMenuList[6], TestDataGen.newMenuList[7], TestDataGen.newMenuList[8], TestDataGen.newMenuList[9], TestDataGen.newMenuList[10], TestDataGen.newMenuList[11], TestDataGen.newMenuList[12], TestDataGen.newMenuList[13], TestDataGen.newMenuList[14], TestDataGen.newMenuList[15], TestDataGen.newMenuList[16], TestDataGen.newMenuList[17], TestDataGen.newMenuList[18], TestDataGen.newMenuList[19], TestDataGen.newMenuList[20], TestDataGen.newMenuList[21] )
+        self.master.fieldButtonAdd = OptionMenu(self.master, self.master.fieldButtonVarAdd, '', TestDataGen.newMenuList[0], TestDataGen.newMenuList[1], TestDataGen.newMenuList[2], TestDataGen.newMenuList[3], TestDataGen.newMenuList[4], TestDataGen.newMenuList[5], TestDataGen.newMenuList[6], TestDataGen.newMenuList[7], TestDataGen.newMenuList[8], TestDataGen.newMenuList[9], TestDataGen.newMenuList[10], TestDataGen.newMenuList[11], TestDataGen.newMenuList[12], TestDataGen.newMenuList[13], TestDataGen.newMenuList[14], TestDataGen.newMenuList[15], TestDataGen.newMenuList[16], TestDataGen.newMenuList[17], TestDataGen.newMenuList[18], TestDataGen.newMenuList[19])
 
         self.master.entryPointadd = Entry(self.master, width = 13)
         self.master.entryPointadd.grid(column = 0, row = self.master.grid_size()[1], pady = 3, padx = 3)
@@ -122,7 +117,7 @@ class TestDataGen(Frame):
         self.master.dropDownCatAdd.configure(takefocus = 0)
 
 
-        self.master.destroyRow = Button(self.master, text = 'X')
+        self.master.destroyRow = Button(self.master, text = 'X', command = lambda: self.master.destroyRow.destroy())
         self.master.destroyRow.config(width = 2)
         self.master.destroyRow.grid(column = 3, row =  self.master.grid_size()[1] - 1) 
         self.master.destroyRow.configure(takefocus = 0)  
@@ -182,17 +177,16 @@ class TestDataGen(Frame):
         except ValueError:
             messagebox.showerror(title = 'Error', message = 'Please enter a number between 1 and 1,000,000 for number or rows.')
     
-    def deleteRows(self):
-        if self.master.destroyRow.grid_size()[1] == self.master.destroyRow.grid_size()[1]:
-            self.master.destroyRow.grid_size()[1].destroy()
-        TestDataGen.buttonList.pop()
-        TestDataGen.entryList.pop()
+    # def deleteRows(self):
         
-        print(TestDataGen.gridList)
-        print(TestDataGen.buttonList)
-        print(TestDataGen.entryList.pop)
+    #     TestDataGen.buttonList.pop()
+    #     TestDataGen.entryList.pop()
+        
+    #     print(TestDataGen.gridList)
+    #     print(TestDataGen.buttonList)
+    #     print(TestDataGen.entryList.pop)
 
-        self.master.mainloop()
+    #     self.master.mainloop()
 
 
 root = Tk()
