@@ -31,7 +31,7 @@ class TestDataGen(Frame):
 
     entryListVals = []
 
-    gridList = []
+    rowList = []
 
     dropDownVals = []
 
@@ -80,10 +80,14 @@ class TestDataGen(Frame):
 
         self.master.listLen = len(TestDataGen.menuList)
 
-        for i in range(self.master.listLen):
-                    
+        c = 0
+
+        while c <= 4:
+
+            c += 1  
+                 
             self.master.entryPoint = Entry(self.master, width = 13)
-            self.master.entryPoint.grid(column = 0, row = i + 3, pady = 3, padx = 3)
+            self.master.entryPoint.grid(column = 0, row = c + 3, pady = 3, padx = 3)
             self.master.entryPoint.configure(takefocus = 1)
 
             self.master.dataBtn = Button(self.master, text = 'Generate', command = self.buttonClick)
@@ -94,21 +98,27 @@ class TestDataGen(Frame):
             self.master.addFieldBtn.configure(takefocus = 0)
             self.master.addFieldBtn.grid(column = 2, row = 1)
 
-            self.master.destroyRowButton = Button(self.master, text = 'X', command = self.deleteRows)
+            self.master.destroyRowButton = Button(self.master, text = 'X')  # How do I get the specific button that I clicked?
             self.master.destroyRowButton.config(width = 2)
-            self.master.destroyRowButton.grid(column = 3, row =  i + 3) 
-            self.master.destroyRowButton.configure(takefocus = 0)             
+            self.master.destroyRowButton.grid(column = 3, row =  c + 3) 
+            self.master.destroyRowButton.configure(takefocus = 0)
+            self.master.destroyRowButton.config(command = lambda: self.deleteRows(c-1))            
+
+
+            TestDataGen.rowList.append(self.master.destroyRowButton.grid_info()['row'])
+
+            print(TestDataGen.rowList)
 
             self.master.cat1 = StringVar(self.master)
             self.master.cat1.set("Categories")
             self.master.dropDownCat = OptionMenu(self.master, self.master.cat1, '', TestDataGen.categoriesList[0], TestDataGen.categoriesList[1], TestDataGen.categoriesList[2], TestDataGen.categoriesList[3])
-            self.master.dropDownCat.grid(column = 1, row = i + 3)
+            self.master.dropDownCat.grid(column = 1, row = c + 3)
             self.master.dropDownCat.configure(takefocus = 0)
 
             self.master.fieldDropDVar = StringVar(self.master)
             self.master.fieldDropDVar.set(TestDataGen.newMenuList[0])
             self.master.fieldDD = OptionMenu(self.master, self.master.fieldDropDVar, '',  TestDataGen.newMenuList[0], TestDataGen.newMenuList[1], TestDataGen.newMenuList[2], TestDataGen.newMenuList[3], TestDataGen.newMenuList[4], TestDataGen.newMenuList[5], TestDataGen.newMenuList[6], TestDataGen.newMenuList[7], TestDataGen.newMenuList[8], TestDataGen.newMenuList[9], TestDataGen.newMenuList[10], TestDataGen.newMenuList[11], TestDataGen.newMenuList[12], TestDataGen.newMenuList[13], TestDataGen.newMenuList[14], TestDataGen.newMenuList[15], TestDataGen.newMenuList[16], TestDataGen.newMenuList[17], TestDataGen.newMenuList[18], TestDataGen.newMenuList[19])
-            self.master.fieldDD.grid(column = 2, row = i + 3, pady = 3, padx = 3)
+            self.master.fieldDD.grid(column = 2, row = c + 3, pady = 3, padx = 3)
             self.master.fieldDD.configure(takefocus = 0)
             
             # Value Appends
@@ -122,7 +132,6 @@ class TestDataGen(Frame):
             TestDataGen.fieldDDWidgList.append(self.master.fieldDD)
             TestDataGen.entryListWidgets.append(self.master.entryPoint)
             TestDataGen.deleteButtonWidgList.append(self.master.destroyRowButton)
-
 
         self.master.mainloop
 
@@ -152,7 +161,7 @@ class TestDataGen(Frame):
         # Added Value Appends
 
         TestDataGen.dropDownVals.append(self.master.fieldDropDVarAdd)
-        TestDataGen.entryListInput.append(self.master.entryPointadd)
+        TestDataGen.entryListInput.append(self.master.entryPointAdd)
         
         # Added Widget Appends
         
@@ -173,7 +182,7 @@ class TestDataGen(Frame):
                 messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')
 
             # elif self.master.entryPointAdd.get() == '':
-            #     messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')                This Don't Work
+            #     messagebox.showerror(title = 'Error', message = 'Please enter field names for all fields.')        This Don't Work
 
             elif len(self.master.entryPoint.get()) > 20:
                 messagebox.showerror(title = 'Error', message = 'Max 20 characters allowed.')
@@ -210,13 +219,21 @@ class TestDataGen(Frame):
         except ValueError:
             messagebox.showerror(title = 'Error', message = 'Please enter a number between 1 and 1,000,000 for number or rows.')
         
-    def deleteRows(self):
+    def deleteRows(self,rownum):
         
-        for self.master.destroyRow in TestDataGen.deleteButtonWidgList:
-            TestDataGen.widgetRowsList.append(self.master.destroyRow.grid_info()['row'])
-            print(self.master.destroyRow.grid_info()['row'])
+        # print(TestDataGen.rowList)
+        # d = -1
+        # for c in range(0,len(TestDataGen.rowList)):
+        #     print(str(TestDataGen.rowList[c]) +" "+str(rownum))
+        #     if rownum == TestDataGen.rowList[c]:
+        #         print(c)
+        #         d = c
 
-        print(TestDataGen.widgetRowsList)
+        TestDataGen.deleteButtonWidgList[rownum].destroy()            
+        TestDataGen.dropDownCatWidgList[rownum].destroy()
+        TestDataGen.entryListWidgets[rownum].destroy()
+        TestDataGen.fieldDDWidgList[rownum].destroy()
+            
 root = Tk()
 gui = TestDataGen(root)
 root.resizable(0, 0)
