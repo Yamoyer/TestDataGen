@@ -15,7 +15,7 @@ class TestDataGen(Frame):
     newMenuList = ['Select','ssn', 'name','country', 'date', 'company','state','city', 'real_city', 'zipcode', 'latitude', 'longitude','name_month', 'weekday', 'year', 'time', 'date',  
     'email', 'phone_number_simple', 'license_plate']
     
-    personalList =  ['Select' 'ssn', 'name', 'email', 'phone_number-simple', 'company', 'license_plate']
+    personalList =  ['Select', 'ssn', 'name', 'email', 'phone_number_simple', 'company', 'license_plate']
 
     geographicList = ['Select','country', 'state', 'city', 'real_city', 'zipcode', 'latitude', 'longitude']
 
@@ -229,7 +229,7 @@ class TestDataGen(Frame):
     
         for i in range(0, len(TestDataGen.deleteButtonWidgList)):
 
-            if TestDataGen.deleteButtonWidgList[i] == self.master.destroyRowButton.grid_info()['row']:
+            if TestDataGen.deleteButtonWidgList[i] == TestDataGen.:
                 print(self.master.destroyRowButton.grid_info()['row'])
                 TestDataGen.deleteButtonWidgList[i].destroy()            
                 # TestDataGen.dropDownCatWidgList[i].destroy()
