@@ -228,17 +228,19 @@ class TestDataGen(Frame):
         #         d = c
     
         for i in range(0, len(TestDataGen.deleteButtonWidgList)):
-            if TestDataGen.deleteButtonWidgList[i] == TestDataGen.deleteButtonWidgList[-1]:
+
+            if TestDataGen.deleteButtonWidgList[i] == self.master.destroyRowButton.grid_info()['row']:
+                print(self.master.destroyRowButton.grid_info()['row'])
                 TestDataGen.deleteButtonWidgList[i].destroy()            
-                TestDataGen.dropDownCatWidgList[i].destroy()
-                TestDataGen.entryListWidgets[i].destroy()
-                TestDataGen.fieldDDWidgList[i].destroy()
+                # TestDataGen.dropDownCatWidgList[i].destroy()
+                # TestDataGen.entryListWidgets[i].delete()
+                # TestDataGen.fieldDDWidgList[i].delete()
                 
                 # TestDataGen.rowList.pop()
                 TestDataGen.deleteButtonWidgList.pop()
-                TestDataGen.dropDownCatWidgList.pop()
-                TestDataGen.entryListWidgets.pop()
-                TestDataGen.fieldDDWidgList.pop()
+                # TestDataGen.dropDownCatWidgList.pop()
+                # TestDataGen.entryListWidgets.pop()
+                # TestDataGen.fieldDDWidgList.pop()
             print(TestDataGen.deleteButtonWidgList)
 root = Tk()
 gui = TestDataGen(root)
