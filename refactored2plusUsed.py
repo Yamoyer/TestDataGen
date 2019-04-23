@@ -98,12 +98,11 @@ class TestDataGen(Frame):
             self.master.addFieldBtn.configure(takefocus = 0)
             self.master.addFieldBtn.grid(column = 2, row = 1)
 
-            self.master.destroyRowButton = Button(self.master, text = 'X')  # How do I get the specific button that I clicked?
+            self.master.destroyRowButton = Button(self.master, text = 'X', command = self.deleteRows)  # How do I get the specific button that I clicked?
             self.master.destroyRowButton.config(width = 2)
             self.master.destroyRowButton.grid(column = 3, row =  c + 3) 
             self.master.destroyRowButton.configure(takefocus = 0)
-            self.master.destroyRowButton.config(command = lambda: self.deleteRows(c-1))            
-
+            #self.master.destroyRowButton.config(command = lambda: self.deleteRows(c-1))            
 
             TestDataGen.rowList.append(self.master.destroyRowButton.grid_info()['row'])
 
@@ -219,21 +218,28 @@ class TestDataGen(Frame):
         except ValueError:
             messagebox.showerror(title = 'Error', message = 'Please enter a number between 1 and 1,000,000 for number or rows.')
         
-    def deleteRows(self,rownum):
+    def deleteRows(self):
         
-        # print(TestDataGen.rowList)
         # d = -1
         # for c in range(0,len(TestDataGen.rowList)):
         #     print(str(TestDataGen.rowList[c]) +" "+str(rownum))
         #     if rownum == TestDataGen.rowList[c]:
         #         print(c)
         #         d = c
-
-        TestDataGen.deleteButtonWidgList[rownum].destroy()            
-        TestDataGen.dropDownCatWidgList[rownum].destroy()
-        TestDataGen.entryListWidgets[rownum].destroy()
-        TestDataGen.fieldDDWidgList[rownum].destroy()
-            
+    
+        for i in range(0, len(TestDataGen.deleteButtonWidgList)):
+            if TestDataGen.deleteButtonWidgList[i] == TestDataGen.deleteButtonWidgList[-1]:
+                TestDataGen.deleteButtonWidgList[i].destroy()            
+                TestDataGen.dropDownCatWidgList[i].destroy()
+                TestDataGen.entryListWidgets[i].destroy()
+                TestDataGen.fieldDDWidgList[i].destroy()
+                
+                # TestDataGen.rowList.pop()
+                TestDataGen.deleteButtonWidgList.pop()
+                TestDataGen.dropDownCatWidgList.pop()
+                TestDataGen.entryListWidgets.pop()
+                TestDataGen.fieldDDWidgList.pop()
+            print(TestDataGen.deleteButtonWidgList)
 root = Tk()
 gui = TestDataGen(root)
 root.resizable(0, 0)
